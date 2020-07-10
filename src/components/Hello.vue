@@ -38,7 +38,7 @@
 
 <script>
 import axios from 'axios'
-let baseUrl = 'http://localhost:8082/api/v1'
+let baseUrl = 'http://10.1.1.178:8080/api/v1'
 export default {
   name: 'hello',
   data () {
