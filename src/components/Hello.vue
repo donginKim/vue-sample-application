@@ -38,7 +38,17 @@
 
 <script>
 import axios from 'axios'
-let baseUrl = 'http://10.1.1.178:8080/api/v1'
+
+const $http = axios.create({
+  baseURL: 'http://10.1.1.178:8080',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'Access-Control-Allow-Origin': '*'
+  }
+})
+
+export { $http }
+
 export default {
   name: 'hello',
   data () {
@@ -50,7 +60,7 @@ export default {
   methods: {
     allUserList: function () {
       let vm = this
-      axios.get(baseUrl + '/users/')
+      $http.get('/users/')
         .then(response => {
           vm.users = response.data.map(r => r.data)
         })
@@ -62,7 +72,7 @@ export default {
       event.preventDefault()
       let vm = this
       if (!vm.newUser.name) return
-      axios.put(baseUrl + '/users/add', vm.newUser)
+      $http.put('/users/add', vm.newUser)
         .then(response => {
           console.log(response)
         })
