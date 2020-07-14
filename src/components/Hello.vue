@@ -19,7 +19,6 @@
           </b-row>
         </b-container>
       </b-form-group>
-
       <b-list-group v-if="users && users.length">
         <b-list-group-item
           v-for="user of users"
@@ -38,16 +37,7 @@
 
 <script>
 import axios from 'axios'
-
-const $http = axios.create({
-  baseURL: 'http://10.1.1.178:8080',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'Access-Control-Allow-Origin': '*'
-  }
-})
-
-export { $http }
+let baseURL = 'http://localhost:8082'
 
 export default {
   name: 'hello',
@@ -59,10 +49,9 @@ export default {
   },
   methods: {
     allUserList: function () {
-      let vm = this
-      $http.get('/users/')
+      axios.get(baseURL + '/api/v1/users/')
         .then(response => {
-          vm.users = response.data.map(r => r.data)
+          this.users = response.data
         })
         .catch(e => {
           console.log('error: ', e)
@@ -72,9 +61,11 @@ export default {
       event.preventDefault()
       let vm = this
       if (!vm.newUser.name) return
-      $http.put('/users/add', vm.newUser)
+      console.log(vm.newUser)
+      axios.put(baseURL + '/api/v1/users/add', { name: vm.newUser.name })
         .then(response => {
-          console.log(response)
+          this.allUserList()
+          vm.newUser = {}
         })
         .catch(error => {
           console.log(error)
