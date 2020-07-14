@@ -61,7 +61,6 @@ export default {
       event.preventDefault()
       let vm = this
       if (!vm.newUser.name) return
-      console.log(vm.newUser)
       axios.put(baseURL + '/api/v1/users/add', { name: vm.newUser.name })
         .then(response => {
           this.allUserList()
